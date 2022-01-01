@@ -2,14 +2,13 @@ package mariuszmaslanka.driverbook.api;
 
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
-import mariuszmaslanka.driverbook.driver.DriverData;
 import mariuszmaslanka.driverbook.driver.DriverDataProcessor;
+import mariuszmaslanka.driverbook.driver.DriversData;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
-
-import java.util.List;
 
 import static org.springframework.http.HttpStatus.OK;
 
@@ -28,9 +27,20 @@ public class DriverBookController {
   }
 
   @GetMapping("/drivers")
-  ResponseEntity<List<DriverData>> getAll() {
+  ResponseEntity<DriversData> getAll(@RequestParam(required = false) String nationality,
+                                     @RequestParam(required = false) Boolean active,
+                                     @RequestParam(required = false) Integer bornYearFrom,
+                                     @RequestParam(required = false) Integer bornYearTo) {
+
+    Filters filters = Filters.builder()
+        .nationality(nationality)
+        .active(active)
+        .birthFrom(bornYearFrom)
+        .birthTo(bornYearTo)
+        .build();
+
     log.info("Fetch drivers data started");
-    List<DriverData> drivers = driverDataProcessor.getDriverData();
+    DriversData drivers = driverDataProcessor.getDriverData(filters);
     log.info("Fetch drivers data completed");
     return new ResponseEntity<>(drivers, OK);
   }

@@ -9,6 +9,7 @@ import org.elasticsearch.action.search.SearchRequest;
 import org.elasticsearch.action.search.SearchResponse;
 import org.elasticsearch.client.RequestOptions;
 import org.elasticsearch.client.RestHighLevelClient;
+import org.elasticsearch.index.query.QueryBuilder;
 import org.elasticsearch.search.SearchHit;
 import org.elasticsearch.search.builder.SearchSourceBuilder;
 import org.springframework.stereotype.Component;
@@ -26,9 +27,9 @@ public class ElasticsearchReadService<T> {
   private final RestHighLevelClient client;
   private final ObjectMapper objectMapper;
 
-  public List<T> read(String indexName, TypeReference<T> typeReference) {
+  public List<T> read(String indexName, QueryBuilder query, TypeReference<T> typeReference) {
     try {
-      SearchRequest searchRequest = createSearchRequest(indexName);
+      SearchRequest searchRequest = createSearchRequest(indexName, query);
       SearchResponse searchResponse = client.search(searchRequest, RequestOptions.DEFAULT);
       SearchHit[] hits = searchResponse.getHits().getHits();
 
@@ -42,9 +43,10 @@ public class ElasticsearchReadService<T> {
     }
   }
 
-  private SearchRequest createSearchRequest(String indexName) {
+  private SearchRequest createSearchRequest(String indexName, QueryBuilder query) {
     SearchSourceBuilder searchSourceBuilder = new SearchSourceBuilder();
     searchSourceBuilder.size(1000);
+    searchSourceBuilder.query(query);
 
     SearchRequest searchRequest = new SearchRequest();
     searchRequest.indices(indexName);
