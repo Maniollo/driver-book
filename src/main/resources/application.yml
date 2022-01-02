@@ -4,3 +4,10 @@ elasticsearch:
   index:
     name:
       drivers: "db-drivers"
+      statistics: "db-statistics"
+      enriched-drivers: "db-enriched-drivers"
+  pipeline:
+    name: "driver-enrichment-pipeline"
+    path: "pipeline/driver-enrichment.json"
+  policy:
+    name: "enrich-statistics-policy"

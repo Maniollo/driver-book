@@ -41,6 +41,10 @@ public class ElasticsearchStorageService<T> {
   private final ObjectMapper objectMapper;
 
   public void store(List<T> data, String indexNameAsAlias) {
+    store(data, indexNameAsAlias, null);
+  }
+
+  public void store(List<T> data, String indexNameAsAlias, String pipeline) {
     if (data.isEmpty()) {
       log.info("Nothing to store");
       return;
@@ -52,7 +56,7 @@ public class ElasticsearchStorageService<T> {
     try {
       String index = indexNameAsAlias + "-" + ZonedDateTime.now().format(DATE_FORMATTER);
       createIndex(index);
-      storeInIndex(index, data);
+      storeInIndex(index, data, pipeline);
       assignAlias(indexNameAsAlias, index);
     } catch (Exception e) {
       throw new ElasticsearchStoreException(e);
@@ -62,13 +66,13 @@ public class ElasticsearchStorageService<T> {
     log.info("Storing data into elasticsearch index '{}' done in {} ms", indexNameAsAlias, stopwatch.elapsed(MILLISECONDS));
   }
 
-  private void storeInIndex(String indexName, List<T> data) {
+  private void storeInIndex(String indexName, List<T> data, String pipeline) {
     try {
       BulkRequest bulkRequest = new BulkRequest().setRefreshPolicy(WAIT_UNTIL);
       data.forEach(it -> {
         Map<String, Object> source = objectMapper.convertValue(it, new TypeReference<>() {
         });
-        bulkRequest.add(new IndexRequest(indexName).source(source));
+        bulkRequest.add(new IndexRequest(indexName).source(source).setPipeline(pipeline));
       });
       BulkResponse bulkResponse = client.bulk(bulkRequest, DEFAULT);
       if (bulkResponse.hasFailures()) {

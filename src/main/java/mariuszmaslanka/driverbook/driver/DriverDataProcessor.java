@@ -22,12 +22,19 @@ public class DriverDataProcessor {
   @Value("#{'${elasticsearch.index.name.drivers}'}")
   private String driversRawIndexName;
 
+  @Value("#{'${elasticsearch.index.name.enriched-drivers}'}")
+  private String driversEnrichedIndexName;
+
+  @Value("#{'${elasticsearch.pipeline.name}'}")
+  private String pipelineName;
+
   public void refreshDriverData() {
     storageService.store(driverRepository.getAll(), driversRawIndexName);
+    storageService.store(driverRepository.getAll(), driversEnrichedIndexName, pipelineName);
   }
 
   public DriversData getDriverData(Filters filters) {
-    List<DriverData> driverDataList = searchService.read(driversRawIndexName,
+    List<DriverData> driverDataList = searchService.read(driversEnrichedIndexName,
         driverDataQueryProvider.getQuery(filters),
         new TypeReference<>() {
         });

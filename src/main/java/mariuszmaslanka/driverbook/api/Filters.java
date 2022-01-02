@@ -10,4 +10,6 @@ public class Filters {
   Boolean active;
   Integer birthFrom;
   Integer birthTo;
+  Boolean hasTitle;
+  Boolean hasWin;
 }

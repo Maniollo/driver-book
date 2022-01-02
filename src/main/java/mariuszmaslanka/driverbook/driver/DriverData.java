@@ -16,4 +16,5 @@ public class DriverData {
   String nationality;
   boolean active;
   Integer permanentNumber;
+  DriverStatistic statistics;
 }
