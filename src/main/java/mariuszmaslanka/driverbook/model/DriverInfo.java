@@ -1,13 +1,14 @@
-package mariuszmaslanka.driverbook.driver;
+package mariuszmaslanka.driverbook.model;
 
 import lombok.Builder;
 import lombok.Value;
+import mariuszmaslanka.driverbook.driver.DriverStatistic;
 
 import java.time.LocalDate;
 
 @Value
 @Builder
-public class DriverData {
+public class DriverInfo {
   String driverId;
   String code;
   String givenName;

@@ -1,23 +1,24 @@
 package mariuszmaslanka.driverbook.driver;
 
-import com.fasterxml.jackson.core.type.TypeReference;
 import lombok.RequiredArgsConstructor;
 import mariuszmaslanka.driverbook.api.Filters;
 import mariuszmaslanka.driverbook.elastic.ElasticsearchReadService;
 import mariuszmaslanka.driverbook.elastic.ElasticsearchStorageService;
+import mariuszmaslanka.driverbook.model.DriversData;
+import org.elasticsearch.action.search.SearchResponse;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Component;
-
-import java.util.List;
 
 @RequiredArgsConstructor
 @Component
 public class DriverDataProcessor {
 
   private final ElasticsearchStorageService<Driver> storageService;
-  private final ElasticsearchReadService<DriverData> searchService;
+  private final ElasticsearchReadService searchService;
   private final DriverDataQueryProvider driverDataQueryProvider;
   private final DriverRepository driverRepository;
+  private final DriverAggregationProvider driverAggregationProvider;
+  private final DriverAggregationResultMapper driverAggregationResultMapper;
 
   @Value("#{'${elasticsearch.index.name.drivers}'}")
   private String driversRawIndexName;
@@ -34,14 +35,10 @@ public class DriverDataProcessor {
   }
 
   public DriversData getDriverData(Filters filters) {
-    List<DriverData> driverDataList = searchService.read(driversEnrichedIndexName,
+    SearchResponse searchResponse = searchService.read(driversEnrichedIndexName,
         driverDataQueryProvider.getQuery(filters),
-        new TypeReference<>() {
-        });
+        driverAggregationProvider.getAggregations());
 
-    return DriversData.builder()
-        .count(driverDataList.size())
-        .drivers(driverDataList)
-        .build();
+    return driverAggregationResultMapper.map(searchResponse);
   }
 }

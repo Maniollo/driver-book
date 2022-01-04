@@ -15,19 +15,23 @@ import org.elasticsearch.client.RestHighLevelClient;
 import org.elasticsearch.client.indices.CreateIndexRequest;
 import org.elasticsearch.client.indices.GetIndexRequest;
 import org.elasticsearch.common.settings.Settings;
+import org.springframework.core.io.ClassPathResource;
 import org.springframework.stereotype.Component;
 
 import java.io.IOException;
+import java.io.InputStream;
 import java.time.ZonedDateTime;
 import java.time.format.DateTimeFormatter;
 import java.util.List;
 import java.util.Map;
 
+import static java.nio.charset.StandardCharsets.UTF_8;
 import static java.util.concurrent.TimeUnit.MILLISECONDS;
 import static org.elasticsearch.action.admin.indices.alias.IndicesAliasesRequest.AliasActions.Type.ADD;
 import static org.elasticsearch.action.admin.indices.alias.IndicesAliasesRequest.AliasActions.Type.REMOVE;
 import static org.elasticsearch.action.support.WriteRequest.RefreshPolicy.WAIT_UNTIL;
 import static org.elasticsearch.client.RequestOptions.DEFAULT;
+import static org.elasticsearch.common.xcontent.XContentType.JSON;
 
 @Slf4j
 @RequiredArgsConstructor
@@ -95,8 +99,14 @@ public class ElasticsearchStorageService<T> {
         .settings(Settings.builder()
             .put("index.number_of_shards", NO_OF_SHARDS)
             .put("index.number_of_replicas", NO_OF_REPLICAS)
-            .build());
+            .build())
+        .mapping(prepareMapping(), JSON);
     client.indices().create(createIndexRequest, DEFAULT);
+  }
+
+  private String prepareMapping() throws IOException {
+    InputStream mappingInputStream = new ClassPathResource("mapping/mapping.json").getInputStream();
+    return new String(mappingInputStream.readAllBytes(), UTF_8);
   }
 
   private void assignAlias(String indexNameAsAlias, String indexName) throws IOException {

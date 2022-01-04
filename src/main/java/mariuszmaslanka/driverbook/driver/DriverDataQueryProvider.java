@@ -16,6 +16,7 @@ import static java.time.Month.JANUARY;
 import static java.time.YearMonth.now;
 import static java.util.Objects.isNull;
 import static java.util.Objects.nonNull;
+import static org.elasticsearch.index.query.QueryBuilders.matchQuery;
 import static org.elasticsearch.index.query.QueryBuilders.rangeQuery;
 import static org.elasticsearch.index.query.QueryBuilders.termQuery;
 

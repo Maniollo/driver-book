@@ -4,7 +4,7 @@ import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import mariuszmaslanka.driverbook.driver.DriverDataProcessor;
 import mariuszmaslanka.driverbook.driver.DriverEnrichProcessor;
-import mariuszmaslanka.driverbook.driver.DriversData;
+import mariuszmaslanka.driverbook.model.DriversData;
 import mariuszmaslanka.driverbook.statistics.StatisticsProcessor;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
