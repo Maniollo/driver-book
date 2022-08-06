@@ -12,6 +12,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
+import static java.lang.String.format;
 import static org.springframework.http.HttpStatus.OK;
 
 @RestController
@@ -53,7 +54,7 @@ public class DriverBookController {
                                      @RequestParam(required = false) Integer bornYearTo,
                                      @RequestParam(required = false) Boolean hasTitle,
                                      @RequestParam(required = false) Boolean hasWin
-                                     ) {
+  ) {
 
     Filters filters = Filters.builder()
         .nationality(nationality)
@@ -66,7 +67,7 @@ public class DriverBookController {
 
     log.info("Fetch drivers data started");
     DriversData drivers = driverDataProcessor.getDriverData(filters);
-    log.info("Fetch drivers data completed");
+    log.info(format("Fetch drivers data completed. %d records found.", drivers.getCount()));
     return new ResponseEntity<>(drivers, OK);
   }
 }

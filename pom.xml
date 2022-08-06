@@ -9,13 +9,16 @@
     </parent>
     <groupId>mariuszmaslanka</groupId>
     <artifactId>driver-book</artifactId>
-    <version>0.0.1-SNAPSHOT</version>
+    <version>1.0.0</version>
     <name>driver-book</name>
     <description>driver-book</description>
+
     <properties>
         <java.version>11</java.version>
         <elasticsearch.version>7.15.2</elasticsearch.version>
+        <guava.version>31.0.1-jre</guava.version>
     </properties>
+
     <dependencies>
         <dependency>
             <groupId>org.springframework.boot</groupId>
@@ -45,7 +48,7 @@
         <dependency>
             <groupId>com.google.guava</groupId>
             <artifactId>guava</artifactId>
-            <version>31.0.1-jre</version>
+            <version>${guava.version}</version>
         </dependency>
         <dependency>
             <groupId>org.springframework.boot</groupId>

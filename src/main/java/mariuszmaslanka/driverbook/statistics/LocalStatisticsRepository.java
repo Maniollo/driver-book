@@ -23,7 +23,7 @@ class LocalStatisticsRepository implements StatisticsRepository {
   @Override
   public List<StatisticsData> getAll() {
     try {
-      return objectMapper.readValue(resourceFile.getFile(), new TypeReference<>() {
+      return objectMapper.readValue(resourceFile.getInputStream(), new TypeReference<>() {
       });
     } catch (IOException e) {
       throw new RuntimeException(e);

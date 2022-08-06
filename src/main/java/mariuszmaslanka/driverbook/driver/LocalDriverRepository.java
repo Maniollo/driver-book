@@ -27,7 +27,7 @@ class LocalDriverRepository implements DriverRepository {
   public List<Driver> getAll() {
     try {
       objectMapper.setDateFormat(DATE_FORMAT);
-      return objectMapper.readValue(resourceFile.getFile(), new TypeReference<>() {
+      return objectMapper.readValue(resourceFile.getInputStream(), new TypeReference<>() {
       });
     } catch (IOException e) {
       throw new RuntimeException(e);
