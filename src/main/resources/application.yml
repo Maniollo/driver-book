@@ -1,5 +1,5 @@
 elasticsearch:
-  host: localhost
+  host: driver-book-elk
   port: 9200
   index:
     name:

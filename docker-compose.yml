@@ -1,0 +1,73 @@
+version: '3.8'
+services:
+
+  driver-book:
+    container_name: driver-book
+    build:
+      context: .\
+      dockerfile: Dockerfile
+    image: driver-book:1.0.0
+    ports:
+      - 8080:8080
+    networks:
+      - db-network
+
+  elasticsearch:
+    container_name: driver-book-elk
+    image: docker.elastic.co/elasticsearch/elasticsearch:7.15.2
+    restart: unless-stopped
+    environment:
+      - xpack.security.enabled=false
+      - discovery.type=single-node
+      - ES_JAVA_OPTS=-Xms512m -Xmx512m
+    ports:
+      - 9200:9200
+      - 9300:9300
+    ulimits:
+      memlock:
+        soft: -1
+        hard: -1
+    volumes:
+      - elasticsearch-data:/usr/share/elasticsearch/data
+    networks:
+      - db-network
+    healthcheck:
+      test:
+        [
+          "CMD-SHELL",
+          "curl --fail http://localhost:9200 || exit 1",
+        ]
+      interval: 10s
+      timeout: 10s
+      retries: 120
+
+  kibana:
+    container_name: driver-book-kibana
+    image: docker.elastic.co/kibana/kibana:7.15.2
+    environment:
+      - ELASTICSEARCH_HOSTS=http://elasticsearch:9200
+    restart: unless-stopped
+    ports:
+      - target: 5601
+        published: 5601
+    depends_on:
+      - elasticsearch
+    networks:
+      - db-network
+    healthcheck:
+      test:
+        [
+          "CMD-SHELL",
+          "curl --fail http://localhost:5601 || exit 1",
+        ]
+      interval: 10s
+      timeout: 10s
+      retries: 120
+
+networks:
+  db-network:
+    driver: bridge
+
+volumes:
+  elasticsearch-data:
+    driver: local
