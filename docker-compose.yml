@@ -3,9 +3,7 @@ services:
 
   driver-book:
     container_name: driver-book
-    build:
-      context: .\
-      dockerfile: Dockerfile
+    build: .
     image: driver-book:1.0.0
     ports:
       - 8080:8080
