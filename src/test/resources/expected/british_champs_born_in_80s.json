@@ -1,0 +1,99 @@
+{
+  "count": 2,
+  "drivers": [
+    {
+      "driverId": "button",
+      "code": "BUT",
+      "givenName": "Jenson",
+      "familyName": "Button",
+      "dateOfBirth": "1980-01-19",
+      "nationality": "British",
+      "active": false,
+      "permanentNumber": 22,
+      "statistics": {
+        "races": 307,
+        "wins": 15,
+        "titles": 1
+      }
+    },
+    {
+      "driverId": "hamilton",
+      "code": "HAM",
+      "givenName": "Lewis",
+      "familyName": "Hamilton",
+      "dateOfBirth": "1985-01-07",
+      "nationality": "British",
+      "active": true,
+      "permanentNumber": 44,
+      "statistics": {
+        "races": 288,
+        "wins": 103,
+        "titles": 7
+      }
+    }
+  ],
+  "byNationality": {
+    "British": {
+      "count": 2,
+      "wins": 118,
+      "titles": 8,
+      "avgRaces": 297.0,
+      "drivers": [
+        {
+          "driverId": "button",
+          "givenName": "Jenson",
+          "familyName": "Button"
+        },
+        {
+          "driverId": "hamilton",
+          "givenName": "Lewis",
+          "familyName": "Hamilton"
+        }
+      ]
+    }
+  },
+  "byTitles": {
+    "1": {
+      "count": 1,
+      "drivers": [
+        {
+          "driverId": "button",
+          "givenName": "Jenson",
+          "familyName": "Button"
+        }
+      ]
+    },
+    "7": {
+      "count": 1,
+      "drivers": [
+        {
+          "driverId": "hamilton",
+          "givenName": "Lewis",
+          "familyName": "Hamilton"
+        }
+      ]
+    }
+  },
+  "byActive": {
+    "active": {
+      "count": 1,
+      "drivers": [
+        {
+          "driverId": "hamilton",
+          "givenName": "Lewis",
+          "familyName": "Hamilton"
+        }
+      ]
+    },
+    "inactive": {
+      "count": 1,
+      "drivers": [
+        {
+          "driverId": "button",
+          "givenName": "Jenson",
+          "familyName": "Button"
+        }
+      ]
+    }
+  }
+}

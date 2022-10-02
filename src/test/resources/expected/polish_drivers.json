@@ -1,0 +1,59 @@
+{
+  "count": 1,
+  "drivers": [
+    {
+      "driverId": "kubica",
+      "code": "KUB",
+      "givenName": "Robert",
+      "familyName": "Kubica",
+      "dateOfBirth": "1984-12-07",
+      "nationality": "Polish",
+      "active": false,
+      "permanentNumber": 88,
+      "statistics": {
+        "races": 96,
+        "wins": 1,
+        "titles": 0
+      }
+    }
+  ],
+  "byNationality": {
+    "Polish": {
+      "count": 1,
+      "wins": 1,
+      "titles": 0,
+      "avgRaces": 96.0,
+      "drivers": [
+        {
+          "driverId": "kubica",
+          "givenName": "Robert",
+          "familyName": "Kubica"
+        }
+      ]
+    }
+  },
+  "byTitles": {
+    "0": {
+      "count": 1,
+      "drivers": [
+        {
+          "driverId": "kubica",
+          "givenName": "Robert",
+          "familyName": "Kubica"
+        }
+      ]
+    }
+  },
+  "byActive": {
+    "inactive": {
+      "count": 1,
+      "drivers": [
+        {
+          "driverId": "kubica",
+          "givenName": "Robert",
+          "familyName": "Kubica"
+        }
+      ]
+    }
+  }
+}

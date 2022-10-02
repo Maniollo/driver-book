@@ -1,0 +1,13 @@
+elasticsearch:
+  host: localhost
+  port: 9200
+  index:
+    name:
+      drivers: "test-db-drivers"
+      statistics: "test-db-statistics"
+      enriched-drivers: "test-db-enriched-drivers"
+  pipeline:
+    name: "driver-enrichment-pipeline"
+    path: "pipeline/driver-enrichment.json"
+  policy:
+    name: "enrich-statistics-policy"
